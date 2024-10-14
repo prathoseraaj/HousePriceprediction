@@ -5,21 +5,21 @@ from sklearn.metrics import mean_squared_error, r2_score
 import joblib
 
 # Load dataset
-data = pd.read_csv('House_Price_Prediction.csv')  # Update the dataset filename
+data = pd.read_csv('House_Price_Prediction.csv')  # Update the dataset filename if necessary
 
-# Check if the 'location' column exists
-if 'location' in data.columns:
-    # Encode categorical variables if needed
-    data['location'] = data['location'].astype('category').cat.codes
+# Check if 'prefarea' and 'furnishingstatus' columns exist and encode them
+if 'prefarea' in data.columns:
+    data['prefarea'] = data['prefarea'].astype('category').cat.codes  # Encoding 'prefarea'
 else:
-    print("Warning: 'location' column is missing from the dataset.")
-    # You can handle this by assigning a default value or dropping it, for example:
-    # data['location'] = 0  # Assigning a default value
-    # Alternatively, you may exit the program
-    # exit()
+    print("Warning: 'prefarea' column is missing from the dataset.")
+
+if 'furnishingstatus' in data.columns:
+    data['furnishingstatus'] = data['furnishingstatus'].astype('category').cat.codes  # Encoding 'furnishingstatus'
+else:
+    print("Warning: 'furnishingstatus' column is missing from the dataset.")
 
 # Prepare feature and target variables
-X = data[['num_bedrooms', 'num_bathrooms', 'square_footage', 'location']]  # Adjust features as needed
+X = data[['bedrooms', 'bathrooms', 'area', 'prefarea']]  # Adjust features as needed
 y = data['price']  # Target variable for house prices
 
 # Split data into training and testing sets
